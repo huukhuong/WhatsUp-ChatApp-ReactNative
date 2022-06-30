@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "848171204376",
+    "project_id": "realtimechat-f70d1",
+    "storage_bucket": "realtimechat-f70d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848171204376:android:84249258da3e3d4524686d",
+        "android_client_info": {
+          "package_name": "com.whatsup_chatapp_reactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848171204376-adk6ud59mk9hi0jruinjlqgsdobvcg74.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whatsup_chatapp_reactnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "848171204376-kd0j86323lv4klsvdevmg3dd1q9sc23t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1mxI10Tj0_N-6a3nQiNsHaVvBEGRP1a4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848171204376-kd0j86323lv4klsvdevmg3dd1q9sc23t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
