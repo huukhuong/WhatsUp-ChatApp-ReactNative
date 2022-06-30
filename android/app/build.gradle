@@ -256,6 +256,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-vector-icons')
+    
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
@@ -321,3 +323,4 @@ def isNewArchitectureEnabled() {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
