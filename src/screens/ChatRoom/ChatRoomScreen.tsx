@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParams } from "../../navigations/RootStackNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +11,11 @@ import Ripple from "react-native-material-ripple";
 type Props = NativeStackScreenProps<RootStackParams>;
 
 const ChatRoomScreen = ({ navigation, route }: Props) => {
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* APPBAR */}
@@ -19,7 +24,7 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
         <Ripple
           rippleColor={Colors.LIGHT_2}
           style={styles.btnBack}
-        >
+          onPress={() => navigation.goBack()}>
           <Icon
             name={"arrow-back-outline"}
             size={24}
@@ -69,6 +74,10 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
 
       </View>
       {/* END APPBAR */}
+
+      <Image
+        source={require("../../assets/images/backgroundChat.png")}
+        style={styles.background} />
 
       {/*  MESSAGES LIST */}
 

@@ -1,5 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Colors from "../../utils/Themes";
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
@@ -14,6 +17,8 @@ const styles = StyleSheet.create({
     paddingStart: 8,
     borderBottomWidth: .5,
     borderBottomColor: Colors.LIGHT_3,
+    zIndex: 10,
+    backgroundColor: Colors.DARK,
   },
   btnBack: {
     width: 50,
@@ -67,6 +72,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderTopWidth: .5,
     borderTopColor: Colors.LIGHT_3,
+    zIndex: 10,
+    backgroundColor: Colors.DARK,
   },
   input: {
     flex: 1,
@@ -88,6 +95,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
+  },
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: width,
+    height: height,
+    resizeMode: "repeat",
+    zIndex: 1,
+    opacity: .6,
   },
 });
 
