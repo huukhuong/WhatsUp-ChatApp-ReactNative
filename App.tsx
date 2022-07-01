@@ -23,13 +23,10 @@ const App = () => {
     if (auth().currentUser != null) {
       AppState.addEventListener("change", state => {
         if (state === "active") {
-          // set online = true
           setStatusToOnline();
         } else if (state === "background") {
-          // set online = false
           setStatusToOffline();
         } else if (state === "inactive") {
-          // set online = false
           setStatusToOffline();
         }
       });
