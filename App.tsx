@@ -10,7 +10,9 @@ const App = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   const onAuthChange = (user: FirebaseAuthTypes.User | null) => {
-    setUser(user);
+    setTimeout(() => {
+      setUser(user);
+    }, 1000);
   };
 
   useEffect(() => {

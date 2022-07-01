@@ -9,12 +9,19 @@ import ChatsFragment from "./ChatsFragment/ChatsFragment";
 import CallsFragment from "./CallsFragment/CallsFragment";
 import Colors from "../../utils/Themes";
 import { RootStackParams } from "../../navigations/RootStackNavigation";
+import auth from "@react-native-firebase/auth";
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
 const TopTab = createMaterialTopTabNavigator();
 
 const HomeScreen = ({ navigation, route }: Props) => {
+
+  const onPressLogout = () => {
+    auth().signOut().then(r => {
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* APPBAR */}
@@ -33,7 +40,8 @@ const HomeScreen = ({ navigation, route }: Props) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={.7}
-          style={styles.appBarButton}>
+          style={styles.appBarButton}
+          onPress={onPressLogout}>
           <FontAwesome
             name="sign-out"
             size={16}

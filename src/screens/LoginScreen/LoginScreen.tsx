@@ -8,6 +8,7 @@ import { AuthStackParams } from "../../navigations/AuthStackNavigation";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import auth from "@react-native-firebase/auth";
 
 type Props = NativeStackScreenProps<AuthStackParams>;
 
@@ -17,7 +18,15 @@ const LoginScreen = ({ navigation, route }: Props) => {
   const [password, setPassword] = useState<string>("");
 
   const onPressLogin = () => {
-    console.log("Login...");
+    if (email.trim().length > 0 && password.trim().length > 0) {
+      auth().signInWithEmailAndPassword(email, password)
+        .then(({ user }) => {
+          console.log(user);
+        })
+        .catch(({ e }) => {
+          console.log(e);
+        });
+    }
   };
 
   const onPressSignup = () => {
@@ -59,7 +68,7 @@ const LoginScreen = ({ navigation, route }: Props) => {
           onChangeText={(text) => {
             setPassword(text);
           }}
-          isPassword={false}
+          isPassword={true}
           keyboardType="default"
           autoComplete="password" />
 

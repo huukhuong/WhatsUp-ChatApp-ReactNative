@@ -8,17 +8,38 @@ import { AuthStackParams } from "../../navigations/AuthStackNavigation";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import auth from "@react-native-firebase/auth";
+import { Constants } from "../../utils/Constants";
 
 type Props = NativeStackScreenProps<AuthStackParams>;
 
 const Signup = ({ navigation, route }: Props) => {
 
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rePassword, setRePassword] = useState<string>("");
 
   const onPressSignup = () => {
-    console.log("Signup...");
+    if (email.trim().length > 0 && password.trim().length > 0) {
+      if (password === rePassword) {
+        auth().createUserWithEmailAndPassword(email, password)
+          .then(({ user }) => {
+            auth().currentUser?.updateProfile({ displayName: name });
+            Constants.database.ref("/users/" + user.uid)
+              .set({
+                uid: user.uid,
+                email: user.email,
+                name: name,
+                avatar: "https://thucanh.vn/wp-content/uploads/2021/09/top-9-dia-chi-mua-meo-o-da-nang-uy-tin-va-bao-hanh-tot-nhat1-thucanh.vn_.jpg",
+                isOnline: true,
+              });
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }
   };
 
   const onPressLogin = () => {
@@ -41,6 +62,18 @@ const Signup = ({ navigation, route }: Props) => {
         <Text style={styles.title}>Sign up for free</Text>
 
         <FormGroup
+          value={name}
+          label="Your name"
+          icon="person-outline"
+          placeholder="Your display name"
+          onChangeText={(text) => {
+            setName(text);
+          }}
+          isPassword={false}
+          keyboardType="default"
+          autoComplete="name" />
+
+        <FormGroup
           value={email}
           label="Email address"
           icon="ios-mail-outline"
@@ -60,7 +93,7 @@ const Signup = ({ navigation, route }: Props) => {
           onChangeText={(text) => {
             setPassword(text);
           }}
-          isPassword={false}
+          isPassword={true}
           keyboardType="default"
           autoComplete="password" />
 
@@ -72,13 +105,13 @@ const Signup = ({ navigation, route }: Props) => {
           onChangeText={(text) => {
             setRePassword(text);
           }}
-          isPassword={false}
+          isPassword={true}
           keyboardType="default"
           autoComplete="password" />
 
         <PrimaryButton
           label={"Sign up"}
-          onPress={onPressLogin} />
+          onPress={onPressSignup} />
 
         <View style={styles.moreActionWrapper}>
           <Text style={styles.moreActionText}>Already have an account?</Text>
