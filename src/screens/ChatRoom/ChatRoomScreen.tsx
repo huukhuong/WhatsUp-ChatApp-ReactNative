@@ -25,32 +25,58 @@ interface Chat {
 const ChatRoomScreen = ({ navigation, route }: Props) => {
 
   const [receiverUser, setReceiverUser] = useState<User>();
-  const [chatList, setChatList] = useState<[Chat]>(
-    // @ts-ignore
-    [
-      {
-        senderUid: "JtBvUWvRbFeAs6FiNlovtuc1i0s2",
-        receiverUid: "XlGzv2H62SVn28CSU8Qhk8bZdiZ2",
-        content: "Hi",
-        timestamp: Helpers.getCurrentTimestamp(),
-      },
-      {
-        senderUid: "XlGzv2H62SVn28CSU8Qhk8bZdiZ2",
-        receiverUid: "JtBvUWvRbFeAs6FiNlovtuc1i0s2",
-        content: "Hello?",
-        timestamp: Helpers.getCurrentTimestamp(),
-      },
-    ]);
+  const [chatList, setChatList] = useState<Chat[]>([]);
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
+    // Listening receiver user change
     // @ts-ignore
     const uid = route.params?.uid;
-
     Constants.database.ref("/users/" + uid)
       .on("value", snapshot => {
         setReceiverUser(snapshot.val());
+        // Listening chat messages change
+        const senderUid = auth().currentUser?.uid;
+        const receiverUid = snapshot.val().uid;
+        Constants.database
+          .ref("/chats/" + senderUid + "_" + receiverUid)
+          .on("value", snapshot => {
+            const listChat: Chat[] = [];
+            // @ts-ignore
+            snapshot.forEach(item => {
+              listChat.push(item.val());
+            });
+            setChatList(listChat);
+          });
       });
   }, []);
+
+  const sendMessage = () => {
+    const senderUid = auth().currentUser?.uid;
+    const receiverUid = receiverUser?.uid;
+    const currentTimestamp = Helpers.getCurrentTimestamp();
+
+    if (message.trim().length > 0) {
+      const chat = {
+        senderUid: senderUid,
+        receiverUid: receiverUid,
+        content: message,
+        timestamp: currentTimestamp,
+      };
+
+      // chats/user1_user2
+      Constants.database
+        .ref("/chats/" + senderUid + "_" + receiverUid + "/" + currentTimestamp)
+        .set(chat);
+
+      // chats/user2_user1
+      Constants.database
+        .ref("/chats/" + receiverUid + "_" + senderUid + "/" + currentTimestamp)
+        .set(chat);
+
+      setMessage("");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -131,6 +157,8 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
       {/*  FORM */}
       <View style={styles.formGroup}>
         <TextInput
+          value={message}
+          onChangeText={text => setMessage(text)}
           style={styles.input}
           placeholder={"Type message..."}
           placeholderTextColor={Colors.LIGHT_3}
@@ -139,7 +167,8 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
         <View style={styles.btnSend}>
           <Ripple
             style={styles.btnSend}
-            rippleColor={Colors.LIGHT_1}>
+            rippleColor={Colors.LIGHT_1}
+            onPress={sendMessage}>
             <Icon
               name={"ios-send"}
               size={18}

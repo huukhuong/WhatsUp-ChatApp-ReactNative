@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import styles from "./HomeScreen.styles";
 import { default as Ionicons } from "react-native-vector-icons/Ionicons";
@@ -10,6 +10,8 @@ import CallsFragment from "./CallsFragment/CallsFragment";
 import Colors from "../../utils/Themes";
 import { RootStackParams } from "../../navigations/RootStackNavigation";
 import auth from "@react-native-firebase/auth";
+import { User } from "../../models/User";
+import { Constants } from "../../utils/Constants";
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
@@ -17,17 +19,28 @@ const TopTab = createMaterialTopTabNavigator();
 
 const HomeScreen = ({ navigation, route }: Props) => {
 
+  const [user, setUser] = useState<User | null>(null);
+
   const onPressLogout = () => {
     auth().signOut().then(r => {
     });
   };
+
+  useEffect(() => {
+    const uid = auth().currentUser?.uid;
+
+    Constants.database.ref("/users/" + uid)
+      .on("value", snapshot => {
+        setUser(snapshot.val());
+      });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       {/* APPBAR */}
       <View style={styles.appBar}>
         <Image
-          source={{ uri: "https://cafefcdn.com/thumb_w/650/203337114487263232/2022/3/3/photo1646280815645-1646280816151764748403.jpg" }}
+          source={{ uri: user?.avatar }}
           style={styles.userAvatar} />
         <Text style={styles.appBarTitle}>WhatsUp</Text>
         <TouchableOpacity

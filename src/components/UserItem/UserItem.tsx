@@ -1,5 +1,5 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./UserItem.styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
@@ -8,13 +8,19 @@ import Colors from "../../utils/Themes";
 interface Props {
   avatar: string,
   name: string,
-  lastMessage: string,
-  time: string,
   isOnline: boolean,
   onPress: () => void
 }
 
-const UserItem: React.FC<Props> = ({ avatar, name, lastMessage, time, isOnline, onPress }) => {
+const UserItem: React.FC<Props> = ({ avatar, name, isOnline, onPress }) => {
+
+  const [lastMessage, setLastMessage] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <Ripple
       onPress={onPress}

@@ -53,8 +53,6 @@ const ChatsFragment = ({ navigation, route }: Props) => {
             name={item.name}
             avatar={item.avatar}
             isOnline={item.isOnline}
-            lastMessage="Hello"
-            time="0:00"
             onPress={() => onPressUser(item.uid)} />
         )} />
     </View>
