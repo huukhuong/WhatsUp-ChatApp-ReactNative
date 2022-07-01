@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   btnPrimary: {
     color: Colors.LIGHT,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     justifyContent: "center",
     alignItems: "center",
