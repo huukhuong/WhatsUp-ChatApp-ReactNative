@@ -2,19 +2,45 @@ import React, { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParams } from "../../navigations/RootStackNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./ChatRoomScreen.styles";
 import Colors from "../../utils/Themes";
 import Icon from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
 import { Constants } from "../../utils/Constants";
 import { User } from "../../models/User";
+import MessageItem from "../../components/MessageItem/MessageItem";
+import auth from "@react-native-firebase/auth";
+import { Helpers } from "../../utils/Helpers";
 
 type Props = NativeStackScreenProps<RootStackParams>;
+
+interface Chat {
+  senderUid: string
+  receiverUid: string
+  content: string
+  timestamp: number
+}
 
 const ChatRoomScreen = ({ navigation, route }: Props) => {
 
   const [receiverUser, setReceiverUser] = useState<User>();
+  const [chatList, setChatList] = useState<[Chat]>(
+    // @ts-ignore
+    [
+      {
+        senderUid: "JtBvUWvRbFeAs6FiNlovtuc1i0s2",
+        receiverUid: "XlGzv2H62SVn28CSU8Qhk8bZdiZ2",
+        content: "Hi",
+        timestamp: Helpers.getCurrentTimestamp(),
+      },
+      {
+        senderUid: "XlGzv2H62SVn28CSU8Qhk8bZdiZ2",
+        receiverUid: "JtBvUWvRbFeAs6FiNlovtuc1i0s2",
+        content: "Hello?",
+        timestamp: Helpers.getCurrentTimestamp(),
+      },
+    ]);
 
   useEffect(() => {
     // @ts-ignore
@@ -90,6 +116,15 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
         style={styles.background} />
 
       {/*  MESSAGES LIST */}
+      <FlatList
+        style={{ zIndex: 10 }}
+        data={chatList}
+        renderItem={({ item, index }) =>
+          <MessageItem
+            content={item.content}
+            timestamp={item.timestamp}
+            isSender={item.senderUid === auth().currentUser?.uid} />
+        } />
 
       {/* END  MESSAGES LIST */}
 
