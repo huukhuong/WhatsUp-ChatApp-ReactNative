@@ -19,10 +19,12 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {user != null ?
-        <RootStackNavigation />
-        :
-        <AuthStackNavigation />
+      {
+        user != null
+          ?
+          <RootStackNavigation />
+          :
+          <AuthStackNavigation />
       }
     </NavigationContainer>
   );

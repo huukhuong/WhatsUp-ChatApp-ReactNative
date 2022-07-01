@@ -6,8 +6,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const RootStack = createNativeStackNavigator();
 
 export type RootStackParams = {
-  SplashScreen: undefined;
-  HomeScreen: undefined;
+  SplashScreen: undefined
+  HomeScreen: undefined
+  LoginScreen: undefined
 };
 
 const RootStackNavigation = () => {
