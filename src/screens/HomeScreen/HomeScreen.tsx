@@ -1,14 +1,14 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
-import React from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParams } from '../../../App';
-import styles from './HomeScreen.styles';
-import { default as Ionicons } from 'react-native-vector-icons/Ionicons';
-import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ChatsFragment from './ChatsFragment/ChatsFragment';
-import CallsFragment from './CallsFragment/CallsFragment';
-import Colors from '../../utils/Themes';
+import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert } from "react-native";
+import React from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import styles from "./HomeScreen.styles";
+import { default as Ionicons } from "react-native-vector-icons/Ionicons";
+import { default as FontAwesome } from "react-native-vector-icons/FontAwesome";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import ChatsFragment from "./ChatsFragment/ChatsFragment";
+import CallsFragment from "./CallsFragment/CallsFragment";
+import Colors from "../../utils/Themes";
+import { RootStackParams } from "../../navigations/RootStackNavigation";
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
@@ -27,7 +27,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
           activeOpacity={.7}
           style={styles.appBarButton}>
           <Ionicons
-            name='search'
+            name="search"
             size={16}
             color={Colors.GREEN} />
         </TouchableOpacity>
@@ -35,7 +35,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
           activeOpacity={.7}
           style={styles.appBarButton}>
           <FontAwesome
-            name='sign-out'
+            name="sign-out"
             size={16}
             color={Colors.GREEN} />
         </TouchableOpacity>
@@ -47,23 +47,23 @@ const HomeScreen = ({ navigation, route }: Props) => {
           tabBarActiveTintColor: Colors.GREEN,
           tabBarInactiveTintColor: Colors.LIGHT,
           tabBarIndicatorStyle: {
-            backgroundColor: Colors.GREEN
+            backgroundColor: Colors.GREEN,
           },
           tabBarLabelStyle: {
-            fontWeight: 'bold',
-            fontSize: 16
+            fontWeight: "bold",
+            fontSize: 16,
           },
           tabBarStyle: {
             backgroundColor: Colors.DARK,
-            borderBottomColor: Colors.LIGHT_1
-          }
+            borderBottomColor: Colors.LIGHT_1,
+          },
         }}>
-        <TopTab.Screen name="Chats" component={ChatsFragment} />
-        <TopTab.Screen name="Calls" component={CallsFragment} />
+        <TopTab.Screen name=" Chats" component={ChatsFragment} />
+        <TopTab.Screen name=" Calls" component={CallsFragment} />
       </TopTab.Navigator>
 
     </SafeAreaView>
   );
-}
+};
 
 export default HomeScreen;
