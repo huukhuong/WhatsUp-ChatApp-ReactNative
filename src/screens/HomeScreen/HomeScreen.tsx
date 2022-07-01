@@ -46,12 +46,16 @@ const HomeScreen = ({ navigation, route }: Props) => {
         screenOptions={{
           tabBarActiveTintColor: Colors.GREEN,
           tabBarInactiveTintColor: Colors.LIGHT,
+          tabBarIndicatorStyle: {
+            backgroundColor: Colors.GREEN
+          },
           tabBarLabelStyle: {
             fontWeight: 'bold',
             fontSize: 16
           },
           tabBarStyle: {
-            backgroundColor: Colors.DARK
+            backgroundColor: Colors.DARK,
+            borderBottomColor: Colors.LIGHT_1
           }
         }}>
         <TopTab.Screen name="Chats" component={ChatsFragment} />
