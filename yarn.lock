@@ -1532,6 +1532,14 @@
   "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   "version" "15.7.5"
 
+"@types/react-native-material-ripple@^0.9.2":
+  "integrity" "sha512-54E51EnQeQ9YowKq76lAxSG4KLXjVRoKoD8d1UQrELa28jkGVUssc9850QzFJYQ2HUiTsjVXsMKsHnJnc/LlsA=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-material-ripple/-/react-native-material-ripple-0.9.2.tgz"
+  "version" "0.9.2"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-vector-icons@^6.4.11":
   "integrity" "sha512-jUy9CsTu1Cl3k6WRE7GnqBRHbuSv55PRVfMEel+fF73HKpF8g5JmTzTVMBDX8NfY3PlfIY5VlxiqWZxdjm38Pg=="
   "resolved" "https://registry.npmjs.org/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.11.tgz"
@@ -5888,7 +5896,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@^15.5.10", "prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -5982,6 +5990,13 @@
   "integrity" "sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g=="
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz"
   "version" "0.0.7"
+
+"react-native-material-ripple@^0.9.1":
+  "integrity" "sha512-dHjARdKoGD3LXwPh2TkURabywM5BfdpKc/AHplJTfBMalhVZ2bc7iJoJmNhNnmT/TZ+B3szL6uV1mO7Pv8zNeA=="
+  "resolved" "https://registry.npmjs.org/react-native-material-ripple/-/react-native-material-ripple-0.9.1.tgz"
+  "version" "0.9.1"
+  dependencies:
+    "prop-types" "^15.5.10"
 
 "react-native-safe-area-context@^4.3.1", "react-native-safe-area-context@>= 3.0.0":
   "integrity" "sha512-cEr7fknJCToTrSyDCVNg0GRdRMhyLeQa2NZwVCuzEQcWedOw/59ExomjmzCE4rxrKXs6OJbyfNtFRNyewDaHuA=="
