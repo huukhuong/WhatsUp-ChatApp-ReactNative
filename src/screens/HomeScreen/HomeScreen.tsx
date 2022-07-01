@@ -5,9 +5,13 @@ import { RootStackParams } from '../../../App';
 import styles from './HomeScreen.styles';
 import { default as Ionicons } from 'react-native-vector-icons/Ionicons';
 import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome';
-import UserItem from '../../components/UserItem/UserItem';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import ChatsFragment from './ChatsFragment/ChatsFragment';
+import CallsFragment from './CallsFragment/CallsFragment';
 
 type Props = NativeStackScreenProps<RootStackParams>;
+
+const TopTab = createMaterialTopTabNavigator();
 
 const HomeScreen = ({ navigation, route }: Props) => {
   return (
@@ -36,16 +40,12 @@ const HomeScreen = ({ navigation, route }: Props) => {
         </TouchableOpacity>
       </View>
       {/* END APPBAR */}
-
-      {/* LIST USERS */}
-      <UserItem
-        avatar='https://cdn.longkhanhpets.com/2019/08/tam-ly-loai-meo-1.jpg'
-        name='Adam Smith'
-        lastMessage='Where are your?'
-        time='20:00'
-        onPress={() => { Alert.alert("alo") }}
-        isOnline />
-      {/* END LIST USERS */}
+      
+      <TopTab.Navigator>
+        <TopTab.Screen name="Chats" component={ChatsFragment} />
+        <TopTab.Screen name="Calls" component={CallsFragment} />
+      </TopTab.Navigator>
+      
     </SafeAreaView>
   );
 }

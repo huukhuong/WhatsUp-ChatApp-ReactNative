@@ -39,11 +39,19 @@ const UserItem: React.FC<Props> = ({ avatar, name, lastMessage, time, isOnline, 
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.row}>
-          <Text style={styles.txtName}>{name}</Text>
-          <Text style={styles.txtTime}>{time}</Text>
+          <Text style={styles.txtName}>
+            {name}
+          </Text>
+          <Text style={styles.txtTime}>
+            {time}
+          </Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.txtLastMassage}>{lastMessage}</Text>
+          <Text
+            style={styles.txtLastMassage}
+            numberOfLines={1}>
+            {lastMessage}
+          </Text>
           <Icon
             name='checkmark'
             size={16}

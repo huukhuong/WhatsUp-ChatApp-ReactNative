@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   avatarContainer: {
-    width: 65,
-    height: 65,
-    marginEnd: 16
+    width: 55,
+    height: 55,
+    marginEnd: 12
   },
   avatar: {
-    width: 65,
-    height: 65,
+    width: 55,
+    height: 55,
     borderRadius: 35,
     resizeMode: 'cover'
   },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   txtLastMassage: {
     color: '#9a9a9a',
-    fontSize: 16,
+    fontSize: 15,
     flex: 1
   },
   txtTime: {
