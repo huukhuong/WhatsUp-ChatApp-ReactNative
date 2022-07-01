@@ -38,7 +38,7 @@ const ChatsFragment = ({ navigation, route }: Props) => {
   };
 
   const onPressUser = (uid: string) => {
-    console.log(uid);
+    navigation.navigate("ChatRoomScreen", { uid: uid });
   };
 
   return (
