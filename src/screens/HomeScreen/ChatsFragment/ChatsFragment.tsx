@@ -21,7 +21,7 @@ const ChatsFragment = ({ navigation, route }: Props) => {
         const array: any[] | ((prevState: [User] | undefined) => [User] | undefined) | undefined = [];
         // @ts-ignore
         snapshot.forEach(item => {
-          if (item.val().uid != auth().currentUser?.uid) {
+          if (item.val().uid !== auth().currentUser?.uid) {
             array.push(item.val());
           }
         });
