@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParams } from "../../navigations/RootStackNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,13 +7,23 @@ import styles from "./ChatRoomScreen.styles";
 import Colors from "../../utils/Themes";
 import Icon from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
+import { Constants } from "../../utils/Constants";
+import { User } from "../../models/User";
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
 const ChatRoomScreen = ({ navigation, route }: Props) => {
 
-  useEffect(() => {
+  const [receiverUser, setReceiverUser] = useState<User>();
 
+  useEffect(() => {
+    // @ts-ignore
+    const uid = route.params?.uid;
+
+    Constants.database.ref("/users/" + uid)
+      .on("value", snapshot => {
+        setReceiverUser(snapshot.val());
+      });
   }, []);
 
   return (
@@ -33,21 +43,21 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
 
         <View style={styles.appBarAvatarWrapper}>
           <Image
-            source={{ uri: "https://cafefcdn.com/thumb_w/650/203337114487263232/2022/3/3/photo1646280815645-1646280816151764748403.jpg" }}
+            source={{ uri: receiverUser?.avatar }}
             style={styles.appBarAvatar} />
 
           <View style={styles.appBarOnline}>
             <Icon
               name={"ellipse"}
               size={12}
-              color={Colors.GREEN} />
+              color={receiverUser?.isOnline ? Colors.GREEN : Colors.LIGHT_3} />
           </View>
         </View>
 
         <Text
           style={styles.appBarTitle}
           numberOfLines={1}>
-          Adam Smith
+          {receiverUser?.name}
         </Text>
 
         <TouchableOpacity
