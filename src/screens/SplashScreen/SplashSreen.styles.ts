@@ -1,10 +1,11 @@
 import { Dimensions, StyleSheet } from "react-native";
+import Colors from "../../utils/Themes";
 const width  = Dimensions.get('window').width;
 const height  = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0D0D0D"
+    backgroundColor: Colors.DARK
   },
   background: {
     position: "absolute",

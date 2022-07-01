@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import styles from './SplashSreen.styles';
 import { RootStackParams } from '../../../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Colors from '../../utils/Themes';
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
@@ -20,7 +21,7 @@ const SplashScreen = ({ navigation }: Props) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={"#0D0D0D"} />
+      <StatusBar backgroundColor={Colors.DARK} />
       <Image
         style={styles.background}
         source={require('../../assets/images/splash.png')} />

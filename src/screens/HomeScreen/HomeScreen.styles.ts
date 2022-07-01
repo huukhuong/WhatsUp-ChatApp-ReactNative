@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../utils/Themes';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0D0D0D"
+    backgroundColor: Colors.DARK
   },
   appBar: {
     height: 90,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,
-    // backgroundColor: "#ccc"
   },
   userAvatar: {
     width: 45,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginEnd: 10
   },
   appBarTitle: {
-    color: '#fff',
+    color: Colors.LIGHT,
     fontSize: 24,
     fontWeight: 'bold',
     flex: 1,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   appBarButton: {
     width: 40,
     height: 40,
-    backgroundColor: "#0F211D",
+    backgroundColor: Colors.LIGHT_GREEN,
     marginStart: 10,
     borderRadius: 15,
     alignItems: 'center',

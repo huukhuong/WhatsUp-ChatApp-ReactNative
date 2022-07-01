@@ -8,6 +8,7 @@ import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ChatsFragment from './ChatsFragment/ChatsFragment';
 import CallsFragment from './CallsFragment/CallsFragment';
+import Colors from '../../utils/Themes';
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
@@ -28,7 +29,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
           <Ionicons
             name='search'
             size={16}
-            color="#0EB676" />
+            color={Colors.GREEN} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={.7}
@@ -36,16 +37,27 @@ const HomeScreen = ({ navigation, route }: Props) => {
           <FontAwesome
             name='sign-out'
             size={16}
-            color="#0EB676" />
+            color={Colors.GREEN} />
         </TouchableOpacity>
       </View>
       {/* END APPBAR */}
-      
-      <TopTab.Navigator>
+
+      <TopTab.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: Colors.GREEN,
+          tabBarInactiveTintColor: Colors.LIGHT,
+          tabBarLabelStyle: {
+            fontWeight: 'bold',
+            fontSize: 16
+          },
+          tabBarStyle: {
+            backgroundColor: Colors.DARK
+          }
+        }}>
         <TopTab.Screen name="Chats" component={ChatsFragment} />
         <TopTab.Screen name="Calls" component={CallsFragment} />
       </TopTab.Navigator>
-      
+
     </SafeAreaView>
   );
 }

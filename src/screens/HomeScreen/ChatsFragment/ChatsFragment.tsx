@@ -4,7 +4,6 @@ import React from 'react'
 const ChatsFragment = () => {
   return (
     <View>
-      <Text style={{ color: '#fff', fontSize: 36 }}>ChatsFragment</Text>
     </View>
   )
 }

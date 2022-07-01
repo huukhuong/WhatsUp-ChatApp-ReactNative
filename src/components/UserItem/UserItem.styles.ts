@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import Colors from '../../utils/Themes';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     right: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#000",
+    backgroundColor: Colors.DARK,
     borderRadius: 100,
     paddingLeft: 1,
     paddingTop: .6
@@ -41,18 +42,18 @@ const styles = StyleSheet.create({
     flex: 1
   },
   txtName: {
-    color: '#fafafa',
+    color: Colors.LIGHT_1,
     fontWeight: 'bold',
     fontSize: 20,
     flex: 1
   },
   txtLastMassage: {
-    color: '#9a9a9a',
+    color: Colors.LIGHT_2,
     fontSize: 15,
     flex: 1
   },
   txtTime: {
-    color: "#868686"
+    color: Colors.LIGHT_3
   }
 });
 

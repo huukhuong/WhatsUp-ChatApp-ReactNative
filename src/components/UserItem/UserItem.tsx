@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './UserItem.styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Ripple from 'react-native-material-ripple';
+import Colors from '../../utils/Themes';
 
 interface Props {
   avatar: string,
@@ -31,7 +32,7 @@ const UserItem: React.FC<Props> = ({ avatar, name, lastMessage, time, isOnline, 
               <Icon
                 name='ellipse'
                 size={14}
-                color='#05E28D' />
+                color={Colors.GREEN} />
             </View>
             :
             null
@@ -55,7 +56,7 @@ const UserItem: React.FC<Props> = ({ avatar, name, lastMessage, time, isOnline, 
           <Icon
             name='checkmark'
             size={16}
-            color='#05E28D' />
+            color={Colors.GREEN} />
         </View>
       </View>
     </Ripple>
