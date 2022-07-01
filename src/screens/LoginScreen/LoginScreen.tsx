@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, StatusBar, Text, View } from "react-native";
+import { Image, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import styles from "./LoginScreen.styles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../utils/Themes";
@@ -18,6 +18,10 @@ const LoginScreen = ({ navigation, route }: Props) => {
 
   const onPressLogin = () => {
     console.log("Login...");
+  };
+
+  const onPressSignup = () => {
+    navigation.navigate("SignupScreen");
   };
 
   return (
@@ -63,8 +67,13 @@ const LoginScreen = ({ navigation, route }: Props) => {
           label={"Login"}
           onPress={onPressLogin} />
 
-        <View>
-
+        <View style={styles.moreActionWrapper}>
+          <Text style={styles.moreActionText}>Don't have an account?</Text>
+          <TouchableOpacity
+            activeOpacity={.6}
+            onPress={onPressSignup}>
+            <Text style={styles.moreActionButton}>Sign up</Text>
+          </TouchableOpacity>
         </View>
 
       </KeyboardAwareScrollView>

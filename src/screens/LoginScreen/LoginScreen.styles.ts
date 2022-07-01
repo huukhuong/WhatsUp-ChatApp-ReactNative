@@ -27,6 +27,20 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  moreActionWrapper: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  moreActionText: {
+    color: Colors.LIGHT_2,
+  },
+  moreActionButton: {
+    color: Colors.GREEN,
+    fontWeight: "bold",
+    paddingVertical: 20,
+    paddingHorizontal: 8,
+  },
 });
 
 export default styles;
