@@ -40,7 +40,7 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
         Constants.database
           .ref("/chats/" + senderUid + "_" + receiverUid)
           .on("value", snapshot => {
-            const listChat: Chat[] = [];
+            const listChat: Chat[] = [...chatList];
             // @ts-ignore
             snapshot.forEach(item => {
               listChat.push(item.val());
