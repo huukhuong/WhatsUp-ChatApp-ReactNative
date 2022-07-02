@@ -46,7 +46,6 @@ const HomeScreen = ({ navigation, route }: Props) => {
         // @ts-ignore
         snapshot.forEach(item => {
           const val = item.val();
-          console.log(val)
           if (val.receiverUid === auth().currentUser?.uid) {
             navigation.navigate("CallScreen", {
               senderUid: val.receiverUid,
