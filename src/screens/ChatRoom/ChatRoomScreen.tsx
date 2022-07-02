@@ -13,7 +13,7 @@ import MessageItem from "../../components/MessageItem/MessageItem";
 import auth from "@react-native-firebase/auth";
 import { Helpers } from "../../utils/Helpers";
 
-type Props = NativeStackScreenProps<RootStackParams>;
+type Props = NativeStackScreenProps<RootStackParams, "ChatRoomScreen">;
 
 interface Chat {
   senderUid: string
@@ -30,14 +30,13 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
 
   useEffect(() => {
     // Listening receiver user change
-    // @ts-ignore
-    const uid = route.params?.uid;
-    Constants.database.ref("/users/" + uid)
+    const receiverUid = route.params?.uid;
+    Constants.database.ref("/users/" + receiverUid)
       .on("value", snapshot => {
         setReceiverUser(snapshot.val());
+
         // Listening chat messages change
         const senderUid = auth().currentUser?.uid;
-        const receiverUid = snapshot.val().uid;
         Constants.database
           .ref("/chats/" + senderUid + "_" + receiverUid)
           .on("value", snapshot => {
@@ -76,6 +75,10 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
 
       setMessage("");
     }
+  };
+
+  const HeaderFlatList = () => {
+    return <View style={{ height: 20 }} />;
   };
 
   return (
@@ -144,6 +147,7 @@ const ChatRoomScreen = ({ navigation, route }: Props) => {
       {/*  MESSAGES LIST */}
       <FlatList
         style={{ zIndex: 10 }}
+        ListHeaderComponent={HeaderFlatList}
         data={chatList}
         renderItem={({ item, index }) =>
           <MessageItem

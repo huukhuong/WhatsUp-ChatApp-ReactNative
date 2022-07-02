@@ -9,6 +9,7 @@ import FormGroup from "../../components/FormGroup/FormGroup";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import auth from "@react-native-firebase/auth";
+import { Helpers } from "../../utils/Helpers";
 
 type Props = NativeStackScreenProps<AuthStackParams>;
 
@@ -21,7 +22,7 @@ const LoginScreen = ({ navigation, route }: Props) => {
     if (email.trim().length > 0 && password.trim().length > 0) {
       auth().signInWithEmailAndPassword(email, password)
         .then(({ user }) => {
-          console.log(user);
+          Helpers.setStatusToOnline();
         })
         .catch(({ e }) => {
           console.log(e);

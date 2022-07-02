@@ -12,6 +12,7 @@ import { RootStackParams } from "../../navigations/RootStackNavigation";
 import auth from "@react-native-firebase/auth";
 import { User } from "../../models/User";
 import { Constants } from "../../utils/Constants";
+import { Helpers } from "../../utils/Helpers";
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
@@ -22,6 +23,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
   const [user, setUser] = useState<User | null>(null);
 
   const onPressLogout = () => {
+    Helpers.setStatusToOffline();
     auth().signOut().then(r => {
     });
   };

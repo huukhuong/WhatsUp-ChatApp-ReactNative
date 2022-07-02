@@ -7,22 +7,47 @@ import UserItem from "../../../components/UserItem/UserItem";
 import { RootStackParams } from "../../../navigations/RootStackNavigation";
 import { Constants } from "../../../utils/Constants";
 import auth from "@react-native-firebase/auth";
+import { LastMessage } from "../../../models/LastMessage";
 
 type Props = NativeStackScreenProps<RootStackParams>;
 
 const ChatsFragment = ({ navigation, route }: Props) => {
 
-  const [usersList, setUsersList] = useState<[User]>();
+  const [usersList, setUsersList] = useState<User[]>([]);
+  const [lastMessagesList, setLastMessagesList] = useState<LastMessage[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
+    // when user online/offline/change_avatar
     Constants.database.ref("/users/")
       .on("value", snapshot => {
         const array: any[] | ((prevState: [User] | undefined) => [User] | undefined) | undefined = [];
         // @ts-ignore
         snapshot.forEach(item => {
-          if (item.val().uid !== auth().currentUser?.uid) {
-            array.push(item.val());
+          if (item.val().uid !== auth().currentUser?.uid && item.val() != undefined) {
+            const userValue = item.val();
+            array.push(userValue);
+
+            // listener last message send
+            Constants.database
+              .ref("/chats/" + auth().currentUser?.uid + "_" + userValue.uid)
+              .limitToLast(1)
+              .on("value", snapshot => {
+                const listLastMessage: LastMessage[] = [];
+                // @ts-ignore
+                snapshot.forEach(item => {
+                  const value = item.val();
+                  if (value != null) {
+                    const lastMessage: LastMessage = {
+                      uid: userValue.uid,
+                      lastMessage: value.content,
+                      timestamp: value.timestamp,
+                    };
+                    listLastMessage.push(lastMessage);
+                  }
+                });
+                setLastMessagesList(listLastMessage);
+              });
           }
         });
         // @ts-ignore
@@ -47,14 +72,18 @@ const ChatsFragment = ({ navigation, route }: Props) => {
         refreshing={refreshing}
         onRefresh={pullToRefresh}
         data={usersList}
-        renderItem={({ item, index }) => (
-          <UserItem
-            key={index}
-            name={item.name}
-            avatar={item.avatar}
-            isOnline={item.isOnline}
-            onPress={() => onPressUser(item.uid)} />
-        )} />
+        renderItem={({ item, index }) => {
+          return (
+            <UserItem
+              key={index}
+              uid={item.uid}
+              name={item.name}
+              avatar={item.avatar}
+              isOnline={item.isOnline}
+              lastMessages={lastMessagesList}
+              onPress={() => onPressUser(item.uid)} />
+          );
+        }} />
     </View>
   );
 };

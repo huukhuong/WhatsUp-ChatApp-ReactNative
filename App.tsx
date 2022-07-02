@@ -2,10 +2,10 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import RootStackNavigation from "./src/navigations/RootStackNavigation";
 import AuthStackNavigation from "./src/navigations/AuthStackNavigation";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { AppState } from "react-native";
-import { Constants } from "./src/utils/Constants";
+import { Helpers } from "./src/utils/Helpers";
 
 const App = () => {
 
@@ -15,41 +15,23 @@ const App = () => {
     setTimeout(() => {
       setUser(user);
     }, 1000);
+
+    if (auth().currentUser != null && auth().currentUser != undefined) {
+      AppState.addEventListener("change", state => {
+        if (state === "active") {
+          Helpers.setStatusToOnline();
+        } else if (state === "background") {
+          Helpers.setStatusToOffline();
+        } else if (state === "inactive") {
+          Helpers.setStatusToOffline();
+        }
+      });
+    }
   };
 
   useEffect(() => {
     auth().onAuthStateChanged(user => onAuthChange(user));
-
-    if (auth().currentUser != null) {
-      AppState.addEventListener("change", state => {
-        if (state === "active") {
-          setStatusToOnline();
-        } else if (state === "background") {
-          setStatusToOffline();
-        } else if (state === "inactive") {
-          setStatusToOffline();
-        }
-      });
-    }
   }, []);
-
-  const setStatusToOnline = () => {
-    console.log("Online");
-    Constants.database
-      .ref("/users/" + auth().currentUser?.uid)
-      .update({
-        isOnline: true,
-      });
-  };
-
-  const setStatusToOffline = () => {
-    console.log("Offline");
-    Constants.database
-      .ref("/users/" + auth().currentUser?.uid)
-      .update({
-        isOnline: false,
-      });
-  };
 
   return (
     <NavigationContainer>

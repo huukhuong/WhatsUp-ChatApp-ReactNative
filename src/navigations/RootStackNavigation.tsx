@@ -4,14 +4,14 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChatRoomScreen from "../screens/ChatRoom/ChatRoomScreen";
 
-const RootStack = createNativeStackNavigator();
-
 export type RootStackParams = {
   SplashScreen: undefined
   HomeScreen: undefined
   LoginScreen: undefined
   ChatRoomScreen: { uid: string }
 };
+
+const RootStack = createNativeStackNavigator<RootStackParams>();
 
 const RootStackNavigation = () => {
   return (
