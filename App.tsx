@@ -11,11 +11,18 @@ const App = () => {
 
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
+  useEffect(() => {
+    auth().onAuthStateChanged(user => onAuthChange(user));
+  }, []);
+
   const onAuthChange = (user: FirebaseAuthTypes.User | null) => {
     setTimeout(() => {
       setUser(user);
     }, 1000);
+    onLifecycleChanged();
+  };
 
+  const onLifecycleChanged = () => {
     if (auth().currentUser != null && auth().currentUser != undefined) {
       AppState.addEventListener("change", state => {
         if (state === "active") {
@@ -27,11 +34,7 @@ const App = () => {
         }
       });
     }
-  };
-
-  useEffect(() => {
-    auth().onAuthStateChanged(user => onAuthChange(user));
-  }, []);
+  }
 
   return (
     <NavigationContainer>

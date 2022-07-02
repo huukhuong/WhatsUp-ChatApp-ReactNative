@@ -16,168 +16,184 @@ import { ChatMessage } from "../../models/ChatMessage";
 
 type Props = NativeStackScreenProps<RootStackParams, "ChatRoomScreen">;
 
-const ChatRoomScreen = ({navigation, route}: Props) => {
+const ChatRoomScreen = ({ navigation, route }: Props) => {
 
   const [receiverUser, setReceiverUser] = useState<User>();
   const [chatList, setChatList] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState<string>("");
 
-    useEffect(() => {
-        // Listening receiver user change
-        const receiverUid = route.params?.uid;
-        Constants.database.ref("/users/" + receiverUid)
-            .on("value", snapshot => {
-                setReceiverUser(snapshot.val());
+  useEffect(() => {
+    // Listening receiver user change
+    const receiverUid: string = route.params?.uid;
+    Constants.database.ref("/users/" + receiverUid)
+      .on("value", snapshot => {
+        setReceiverUser(snapshot.val());
 
-                // Listening chat messages change
-                const senderUid = auth().currentUser?.uid;
-                Constants.database
-                    .ref("/chats/" + senderUid + "_" + receiverUid)
-                    .on("value", snapshot => {
-                      const listChat: ChatMessage[] = [...chatList];
-                        // @ts-ignore
-                        snapshot.forEach(item => {
-                            listChat.push(item.val());
-                        });
-                        setChatList(listChat);
-                    });
-            });
-    }, []);
-
-    const sendMessage = () => {
+        // Listening chat messages change
         const senderUid = auth().currentUser?.uid;
-        const receiverUid = receiverUser?.uid;
-        const currentTimestamp = Helpers.getCurrentTimestamp();
+        Constants.database
+          .ref("/chats/" + senderUid + "_" + receiverUid)
+          .on("value", snapshot => {
+            const listChat: ChatMessage[] = [...chatList];
+            // @ts-ignore
+            snapshot.forEach(item => {
+              listChat.push(item.val());
+            });
+            setChatList(listChat);
+          });
+      });
+  }, []);
 
-        if (message.trim().length > 0) {
-            const chat = {
-                senderUid: senderUid,
-                receiverUid: receiverUid,
-                content: message,
-                timestamp: currentTimestamp,
-            };
+  const sendMessage = () => {
+    const senderUid = auth().currentUser?.uid;
+    const receiverUid = receiverUser?.uid;
+    const currentTimestamp = Helpers.getCurrentTimestamp();
 
-            // chats/user1_user2
-            Constants.database
-                .ref("/chats/" + senderUid + "_" + receiverUid + "/" + currentTimestamp)
-                .set(chat);
+    if (message.trim().length > 0) {
+      const chat = {
+        senderUid: senderUid,
+        receiverUid: receiverUid,
+        content: message,
+        timestamp: currentTimestamp,
+      };
 
-            // chats/user2_user1
-            Constants.database
-                .ref("/chats/" + receiverUid + "_" + senderUid + "/" + currentTimestamp)
-                .set(chat);
+      // chats/user1_user2
+      Constants.database
+        .ref("/chats/" + senderUid + "_" + receiverUid + "/" + currentTimestamp)
+        .set(chat);
 
-            setMessage("");
-        }
-    };
+      // chats/user2_user1
+      Constants.database
+        .ref("/chats/" + receiverUid + "_" + senderUid + "/" + currentTimestamp)
+        .set(chat);
 
-    const HeaderFlatList = () => {
-        return <View style={{height: 20}}/>;
-    };
+      setMessage("");
+    }
+  };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            {/* APPBAR */}
-            <View style={styles.appBar}>
+  const HeaderFlatList = () => {
+    return <View style={{ height: 20 }} />;
+  };
 
-                <Ripple
-                    rippleColor={Colors.LIGHT_2}
-                    style={styles.btnBack}
-                    onPress={() => navigation.goBack()}>
-                    <Icon
-                        name={"arrow-back-outline"}
-                        size={24}
-                        color={Colors.GREEN}/>
-                </Ripple>
+  const onPressCallButton = () => {
+    navigation.navigate("CallScreen", {
+      senderUid: auth().currentUser?.uid!,
+      receiverUid: route.params?.uid,
+      isVideoCall: false,
+      isSender: true,
+    });
+  };
 
-                <View style={styles.appBarAvatarWrapper}>
-                    <Image
-                        source={{uri: receiverUser?.avatar}}
-                        style={styles.appBarAvatar}/>
+  const onPressVideoCallButton = () => {
+    navigation.navigate("CallScreen", {
+      senderUid: auth().currentUser?.uid!,
+      receiverUid: route.params?.uid,
+      isVideoCall: true,
+      isSender: true,
+    });
+  };
 
-                    <View style={styles.appBarOnline}>
-                        <Icon
-                            name={"ellipse"}
-                            size={12}
-                            color={receiverUser?.isOnline ? Colors.GREEN : Colors.LIGHT_3}/>
-                    </View>
-                </View>
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* APPBAR */}
+      <View style={styles.appBar}>
 
-                <Text
-                    style={styles.appBarTitle}
-                    numberOfLines={1}>
-                    {receiverUser?.name}
-                </Text>
+        <Ripple
+          rippleColor={Colors.LIGHT_2}
+          style={styles.btnBack}
+          onPress={() => navigation.goBack()}>
+          <Icon
+            name={"arrow-back-outline"}
+            size={24}
+            color={Colors.GREEN} />
+        </Ripple>
 
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    style={styles.appBarButton}
-                    onPress={() => {
-                    }}>
-                    <Icon
-                        name="ios-call"
-                        size={16}
-                        color={Colors.GREEN}/>
-                </TouchableOpacity>
+        <View style={styles.appBarAvatarWrapper}>
+          <Image
+            source={{ uri: receiverUser?.avatar }}
+            style={styles.appBarAvatar} />
 
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    style={styles.appBarButton}
-                    onPress={() => {
-                    }}>
-                    <Icon
-                        name="ios-videocam"
-                        size={16}
-                        color={Colors.GREEN}/>
-                </TouchableOpacity>
+          <View style={styles.appBarOnline}>
+            <Icon
+              name={"ellipse"}
+              size={12}
+              color={receiverUser?.isOnline ? Colors.GREEN : Colors.LIGHT_3} />
+          </View>
+        </View>
 
-            </View>
-            {/* END APPBAR */}
+        <Text
+          style={styles.appBarTitle}
+          numberOfLines={1}>
+          {receiverUser?.name}
+        </Text>
 
-            <Image
-                source={require("../../assets/images/backgroundChat.png")}
-                style={styles.background}/>
+        <TouchableOpacity
+          activeOpacity={.7}
+          style={styles.appBarButton}
+          onPress={onPressCallButton}>
+          <Icon
+            name="ios-call"
+            size={16}
+            color={Colors.GREEN} />
+        </TouchableOpacity>
 
-            {/*  MESSAGES LIST */}
-            <FlatList
-                style={{zIndex: 10}}
-                ListHeaderComponent={HeaderFlatList}
-                data={chatList}
-                renderItem={({item, index}) =>
-                    <MessageItem
-                        key={index}
-                        content={item.content}
-                        timestamp={item.timestamp}
-                        isSender={item.senderUid === auth().currentUser?.uid}/>
-                }/>
+        <TouchableOpacity
+          activeOpacity={.7}
+          style={styles.appBarButton}
+          onPress={onPressVideoCallButton}>
+          <Icon
+            name="ios-videocam"
+            size={16}
+            color={Colors.GREEN} />
+        </TouchableOpacity>
 
-            {/* END  MESSAGES LIST */}
+      </View>
+      {/* END APPBAR */}
 
-            {/*  FORM */}
-            <View style={styles.formGroup}>
-                <TextInput
-                    value={message}
-                    onChangeText={text => setMessage(text)}
-                    style={styles.input}
-                    placeholder={"Type message..."}
-                    placeholderTextColor={Colors.LIGHT_3}
-                    multiline
-                />
-                <View style={styles.btnSend}>
-                    <Ripple
-                        style={styles.btnSend}
-                        rippleColor={Colors.LIGHT_1}
-                        onPress={sendMessage}>
-                        <Icon
-                            name={"ios-send"}
-                            size={18}
-                            color={Colors.LIGHT}/>
-                    </Ripple>
-                </View>
-            </View>
-            {/* END  FORM */}
-        </SafeAreaView>
-    );
+      <Image
+        source={require("../../assets/images/backgroundChat.png")}
+        style={styles.background} />
+
+      {/*  MESSAGES LIST */}
+      <FlatList
+        style={{ zIndex: 10 }}
+        ListHeaderComponent={HeaderFlatList}
+        data={chatList}
+        renderItem={({ item, index }) =>
+          <MessageItem
+            key={index}
+            content={item.content}
+            timestamp={item.timestamp}
+            isSender={item.senderUid === auth().currentUser?.uid} />
+        } />
+
+      {/* END  MESSAGES LIST */}
+
+      {/*  FORM */}
+      <View style={styles.formGroup}>
+        <TextInput
+          value={message}
+          onChangeText={text => setMessage(text)}
+          style={styles.input}
+          placeholder={"Type message..."}
+          placeholderTextColor={Colors.LIGHT_3}
+          multiline
+        />
+        <View style={styles.btnSend}>
+          <Ripple
+            style={styles.btnSend}
+            rippleColor={Colors.LIGHT_1}
+            onPress={sendMessage}>
+            <Icon
+              name={"ios-send"}
+              size={18}
+              color={Colors.LIGHT} />
+          </Ripple>
+        </View>
+      </View>
+      {/* END  FORM */}
+    </SafeAreaView>
+  );
 };
 
 export default ChatRoomScreen;

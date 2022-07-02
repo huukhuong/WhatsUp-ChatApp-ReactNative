@@ -1,7 +1,7 @@
 import SplashScreen from "../screens/SplashScreen/SplashScreen";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import * as React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack";
 import ChatRoomScreen from "../screens/ChatRoom/ChatRoomScreen";
 import CallScreen from "../screens/CallScreen/CallScreen";
 
@@ -10,7 +10,12 @@ export type RootStackParams = {
   HomeScreen: undefined
   LoginScreen: undefined
   ChatRoomScreen: { uid: string }
-  CallScreen: { senderUid: string, receiverUid: string }
+  CallScreen: {
+    senderUid: string,
+    receiverUid: string,
+    isVideoCall: boolean,
+    isSender: boolean,
+  }
 };
 
 const RootStack = createNativeStackNavigator<RootStackParams>();

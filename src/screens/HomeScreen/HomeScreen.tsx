@@ -35,7 +35,29 @@ const HomeScreen = ({ navigation, route }: Props) => {
       .on("value", snapshot => {
         setUser(snapshot.val());
       });
+
+    onCallingListener();
   }, []);
+
+  const onCallingListener = () => {
+    Constants.database
+      .ref("/calls/")
+      .on('value', snapshot => {
+        // @ts-ignore
+        snapshot.forEach(item => {
+          const val = item.val();
+          console.log(val)
+          if (val.receiverUid === auth().currentUser?.uid) {
+            navigation.navigate("CallScreen", {
+              senderUid: val.receiverUid,
+              receiverUid: val.senderUid,
+              isVideoCall: val.isVideoCall,
+              isSender: false
+            })
+          }
+        })
+      });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
