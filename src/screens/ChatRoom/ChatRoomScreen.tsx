@@ -1,32 +1,26 @@
-import React, {useEffect, useState} from "react";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {RootStackParams} from "../../navigations/RootStackNavigation";
-import {SafeAreaView} from "react-native-safe-area-context";
-import {FlatList, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, { useEffect, useState } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParams } from "../../navigations/RootStackNavigation";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./ChatRoomScreen.styles";
 import Colors from "../../utils/Themes";
 import Icon from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
-import {Constants} from "../../utils/Constants";
-import {User} from "../../models/User";
+import { Constants } from "../../utils/Constants";
+import { User } from "../../models/User";
 import MessageItem from "../../components/MessageItem/MessageItem";
 import auth from "@react-native-firebase/auth";
-import {Helpers} from "../../utils/Helpers";
+import { Helpers } from "../../utils/Helpers";
+import { ChatMessage } from "../../models/ChatMessage";
 
 type Props = NativeStackScreenProps<RootStackParams, "ChatRoomScreen">;
 
-interface Chat {
-    senderUid: string
-    receiverUid: string
-    content: string
-    timestamp: number
-}
-
 const ChatRoomScreen = ({navigation, route}: Props) => {
 
-    const [receiverUser, setReceiverUser] = useState<User>();
-    const [chatList, setChatList] = useState<Chat[]>([]);
-    const [message, setMessage] = useState<string>("");
+  const [receiverUser, setReceiverUser] = useState<User>();
+  const [chatList, setChatList] = useState<ChatMessage[]>([]);
+  const [message, setMessage] = useState<string>("");
 
     useEffect(() => {
         // Listening receiver user change
@@ -40,7 +34,7 @@ const ChatRoomScreen = ({navigation, route}: Props) => {
                 Constants.database
                     .ref("/chats/" + senderUid + "_" + receiverUid)
                     .on("value", snapshot => {
-                        const listChat: Chat[] = [...chatList];
+                      const listChat: ChatMessage[] = [...chatList];
                         // @ts-ignore
                         snapshot.forEach(item => {
                             listChat.push(item.val());
