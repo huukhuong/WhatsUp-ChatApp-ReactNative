@@ -1,5 +1,5 @@
 import {Image, Text, View} from "react-native";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styles from "./UserItem.styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
@@ -14,10 +14,9 @@ interface Props {
     name: string,
     isOnline: boolean,
     onPress: () => void,
-    lastMessages: any
 }
 
-const UserItem: React.FC<Props> = ({uid, avatar, name, isOnline, onPress, lastMessages}) => {
+const UserItem: React.FC<Props> = ({uid, avatar, name, isOnline, onPress}) => {
 
     const [lastMessage, setLastMessage] = useState<string>("")
     const [timestamp, setTimestamp] = useState<number>(0)
@@ -26,15 +25,20 @@ const UserItem: React.FC<Props> = ({uid, avatar, name, isOnline, onPress, lastMe
         .ref("/chats/" + uid + "_" + auth().currentUser?.uid)
         .limitToLast(1)
         .on('value', snapshot => {
-            // @ts-ignore
-            snapshot.forEach(child => {
-                const {content, receiverUid, senderUid, timestamp} = child.val()
-                if (uid === receiverUid || uid === senderUid) {
-                    setLastMessage(content);
-                    setTimestamp(timestamp)
-                }
-            })
-        })
+            if (snapshot != null) {
+                // @ts-ignore
+                snapshot.forEach(child => {
+                    const {content, receiverUid, senderUid, timestamp} = child.val();
+                    if (uid === receiverUid || uid === senderUid) {
+                        setLastMessage(content);
+                        setTimestamp(timestamp);
+                    }
+                })
+            } else {
+                setLastMessage("");
+                setTimestamp(0);
+            }
+        });
 
     return (
         <Ripple
@@ -61,7 +65,7 @@ const UserItem: React.FC<Props> = ({uid, avatar, name, isOnline, onPress, lastMe
                         {name}
                     </Text>
                     <Text style={styles.txtTime}>
-                        {}
+                        {timestamp != 0 ? Helpers.timestampToHour(timestamp) : ""}
                     </Text>
                 </View>
                 <View style={styles.row}>
@@ -69,13 +73,13 @@ const UserItem: React.FC<Props> = ({uid, avatar, name, isOnline, onPress, lastMe
                         style={styles.txtLastMassage}
                         numberOfLines={1}>
                         {
-                            lastMessage.length === 0 ? "Send first message to " + name : lastMessage
+                            lastMessage === "" ? "Send first message to " + name : lastMessage
                         }
                     </Text>
-                    <Icon
-                        name="checkmark"
-                        size={16}
-                        color={Colors.GREEN}/>
+                    {/*<Icon*/}
+                    {/*    name="checkmark"*/}
+                    {/*    size={16}*/}
+                    {/*    color={Colors.GREEN}/>*/}
                 </View>
             </View>
         </Ripple>
