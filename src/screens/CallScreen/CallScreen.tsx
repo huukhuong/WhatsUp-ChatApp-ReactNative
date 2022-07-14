@@ -7,7 +7,6 @@ import { Helpers } from "../../utils/Helpers";
 import auth from '@react-native-firebase/auth'
 import styles from "./CallScreen.styles";
 import { default as Icon } from "react-native-vector-icons/Ionicons";
-import Colors from '../../utils/Themes';
 
 type Props = NativeStackScreenProps<RootStackParams, "CallScreen">;
 
